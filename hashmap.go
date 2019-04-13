@@ -31,12 +31,12 @@ func NewHashMap() *HashMap {
 
 func (hm *HashMap) Add(key int, value interface{}) {
 	hm.Lock()
-	if hm.count >= hm.rightBound {
-		hm.resize(cap(hm.data) << 1)
-	}
 	isNew := addToData(hm.data, key, value)
 	if isNew {
 		hm.count++
+	}
+	if hm.count > hm.rightBound {
+		hm.resize(cap(hm.data) << 1)
 	}
 	hm.Unlock()
 }
@@ -55,14 +55,14 @@ func (hm *HashMap) Get(key int) interface{} {
 func (hm *HashMap) Delete(key int) bool {
 	var deleted bool
 	hm.Lock()
-	if hm.leftBound != 0 && hm.count <= hm.leftBound {
-		hm.resize(cap(hm.data) >> 1)
-	}
 	i, ok := find(hm.data, key)
 	if ok {
 		hm.data[i] = &dummy
 		hm.count--
 		deleted = true
+	}
+	if hm.leftBound != 0 && hm.count < hm.leftBound {
+		hm.resize(cap(hm.data) >> 1)
 	}
 	hm.Unlock()
 	return deleted
