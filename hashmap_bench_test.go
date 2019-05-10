@@ -5,8 +5,6 @@ import (
 	"testing"
 )
 
-var sink interface{}
-
 func BenchmarkHashMap_Add(b *testing.B) {
 	m := NewHashMap()
 	for i := 0; i < b.N; i++ {
@@ -17,7 +15,7 @@ func BenchmarkHashMap_Add(b *testing.B) {
 func BenchmarkHashMap_Get(b *testing.B) {
 	m := NewHashMap()
 	for i := 0; i < b.N; i++ {
-		sink = m.Get(i)
+		_ = m.Get(i)
 	}
 }
 
@@ -31,7 +29,7 @@ func BenchmarkMap_Add(b *testing.B) {
 func BenchmarkMap_Get(b *testing.B) {
 	m := make(map[int]interface{})
 	for i := 0; i < b.N; i++ {
-		sink = m[i]
+		_ = m[i]
 	}
 }
 
