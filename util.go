@@ -1,4 +1,4 @@
-package main
+package hashmap
 
 func Index(key, size int) int {
 	return abs(hash(key)) % size
